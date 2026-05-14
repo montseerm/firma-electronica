@@ -34,37 +34,42 @@ class LoginRequest extends FormRequest
      * Intenta autenticar al usuario.
      */
     public function authenticate(): void
-    {
-        $this->ensureIsNotRateLimited();
+{
+    $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey(), 60);
+    if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
 
-            throw ValidationException::withMessages([
-                'email' => 'Las credenciales ingresadas son incorrectas.',
-            ]);
-        }
+        // Cada intento fallido se guarda durante 60 segundos.
+        RateLimiter::hit($this->throttleKey(), 60);
 
-        RateLimiter::clear($this->throttleKey());
+        throw ValidationException::withMessages([
+            'email' => 'Las credenciales ingresadas no son correctas.',
+        ]);
     }
 
+    RateLimiter::clear($this->throttleKey());
+}
     /**
      * Verifica si el usuario ya superó el límite de intentos.
      */
-    public function ensureIsNotRateLimited(): void
-    {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
-            return;
-        }
-
-        event(new Lockout($this));
-
-        $seconds = RateLimiter::availableIn($this->throttleKey());
-
-        throw ValidationException::withMessages([
-            'email' => "Has superado el límite de 3 intentos. Intenta nuevamente en {$seconds} segundos.",
-        ]);
+public function ensureIsNotRateLimited(): void
+{
+    // Permitimos máximo 3 intentos.
+    if (! RateLimiter::tooManyAttempts($this->throttleKey(), 2)) {
+        return;
     }
+
+    event(new Lockout($this));
+
+    $seconds = RateLimiter::availableIn($this->throttleKey());
+
+    // Guardamos los segundos en sesión para usarlos en el modal del login.
+    session()->flash('lockout_seconds', $seconds);
+
+    throw ValidationException::withMessages([
+        'email' => 'Ingresa nuevamente usuario y contraseña',
+    ]);
+}
 
     /**
      * Llave única para contar intentos por correo e IP.
