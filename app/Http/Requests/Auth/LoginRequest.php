@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determina si el usuario está autorizado para hacer esta petición.
+     * Determina si el usuario puede hacer esta petición.
      */
     public function authorize(): bool
     {
@@ -20,7 +20,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Reglas de validación para el login.
+     * Reglas de validación del formulario de login.
      */
     public function rules(): array
     {
@@ -34,48 +34,47 @@ class LoginRequest extends FormRequest
      * Intenta autenticar al usuario.
      */
     public function authenticate(): void
-{
-    $this->ensureIsNotRateLimited();
+    {
+        $this->ensureIsNotRateLimited();
 
-    if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
 
-        // Cada intento fallido se guarda durante 60 segundos.
-        RateLimiter::hit($this->throttleKey(), 60);
+            // Cada intento fallido se guarda por 10 segundos.
+            RateLimiter::hit($this->throttleKey(), 10);
 
-        throw ValidationException::withMessages([
-            'email' => 'Las credenciales ingresadas no son correctas.',
-        ]);
+            throw ValidationException::withMessages([
+                'email' => 'Ingresar correo y contraseña correctos.',
+            ]);
+        }
+
+        RateLimiter::clear($this->throttleKey());
     }
 
-    RateLimiter::clear($this->throttleKey());
-}
     /**
-     * Verifica si el usuario ya superó el límite de intentos.
+     * Verifica si el usuario ya excedió el número de intentos.
      */
-public function ensureIsNotRateLimited(): void
-{
-    // Permitimos máximo 3 intentos.
-    if (! RateLimiter::tooManyAttempts($this->throttleKey(), 2)) {
-        return;
+    public function ensureIsNotRateLimited(): void
+    {
+        // intentos fallidos.
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 2)) {
+            return;
+        }
+
+        event(new Lockout($this));
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        // Se manda el tiempo restante a la vista para mostrar el modal.
+        session()->flash('lockout_seconds', $seconds);
+
+    
     }
-
-    event(new Lockout($this));
-
-    $seconds = RateLimiter::availableIn($this->throttleKey());
-
-    // Guardamos los segundos en sesión para usarlos en el modal del login.
-    session()->flash('lockout_seconds', $seconds);
-
-    throw ValidationException::withMessages([
-        'email' => 'Ingresa nuevamente usuario y contraseña',
-    ]);
-}
 
     /**
      * Llave única para contar intentos por correo e IP.
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }
