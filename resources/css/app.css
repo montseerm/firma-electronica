@@ -1,3 +1,134 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+|--------------------------------------------------------------------------
+| Estilos globales del sistema
+|--------------------------------------------------------------------------
+*/
+
+@layer base {
+    html,
+    body {
+        font-family: "Figtree", Arial, Helvetica, sans-serif;
+        color: #001b33;
+        background-color: #f3f4f6;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Componentes reutilizables
+|--------------------------------------------------------------------------
+*/
+
+@layer components {
+    .fj-header {
+        @apply bg-white;
+    }
+
+    .fj-header-container {
+        @apply max-w-7xl mx-auto px-6 pt-6 pb-5;
+    }
+
+    .fj-header-grid {
+        @apply grid grid-cols-3 items-center;
+    }
+
+    .fj-logo {
+        @apply h-20 w-auto object-contain;
+    }
+
+    .fj-title {
+        @apply text-center text-4xl font-normal tracking-normal text-black;
+    }
+
+    .fj-line {
+        @apply mt-5 border-b-4 border-[#00857d];
+    }
+
+    .fj-navbar {
+        @apply bg-white border-b border-gray-200;
+    }
+
+    .fj-main {
+        @apply py-8;
+    }
+
+    .fj-card {
+        @apply bg-white border border-gray-200 shadow-md;
+    }
+
+    .fj-card-header {
+        @apply px-8 py-7 border-b border-gray-200;
+    }
+
+    .fj-card-body {
+        @apply px-8 py-8;
+    }
+
+    .fj-section-title {
+        @apply text-3xl font-normal text-[#001b33];
+    }
+
+    .fj-subtitle {
+        @apply mt-2 text-base text-[#334155];
+    }
+
+    .fj-label {
+        @apply block mb-2 text-sm font-semibold text-[#001b33];
+    }
+
+    .fj-input {
+        @apply block w-full h-[52px] border border-gray-300 bg-white px-4 text-base text-[#001b33] outline-none transition focus:border-[#00857d] focus:ring-2 focus:ring-[#00857d]/20;
+    }
+
+    .fj-input-readonly {
+        @apply block w-full h-[52px] border border-gray-300 bg-gray-100 px-4 text-base text-[#334155] outline-none;
+    }
+
+    .fj-help-text {
+        @apply mt-2 text-sm text-[#64748b];
+    }
+
+    .fj-button-primary {
+        @apply inline-flex items-center justify-center min-w-[210px] h-[48px] bg-[#00857d] px-6 text-base font-semibold text-white shadow-lg shadow-[#00857d]/20 transition hover:bg-[#006f69] active:scale-[0.99];
+    }
+
+    .fj-button-dark {
+        @apply inline-flex items-center justify-center min-w-[160px] h-[44px] bg-[#1f2937] px-5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-[#111827];
+    }
+
+    .fj-status {
+        @apply inline-flex items-center justify-center border border-[#00857d] bg-[#f0fdfa] px-5 py-3 text-sm font-semibold text-[#00857d];
+    }
+
+    .fj-auth-page {
+        @apply min-h-screen bg-[#eef4f5] flex items-center justify-center px-4 py-10;
+    }
+
+    .fj-auth-card {
+        @apply w-full max-w-[460px] bg-white border border-gray-200 shadow-xl px-8 py-10 sm:px-10;
+    }
+
+    .fj-auth-logo {
+        @apply h-16 object-contain mx-auto mb-5;
+    }
+
+    .fj-auth-title {
+        @apply text-2xl sm:text-3xl font-semibold text-[#00345c] text-center;
+    }
+
+    .fj-auth-text {
+        @apply mt-3 text-sm leading-relaxed text-gray-500 text-center;
+    }
+
+    .fj-auth-button {
+        @apply w-full bg-[#00857d] py-4 text-white font-semibold shadow-lg shadow-[#00857d]/20 transition hover:bg-[#006f69] active:scale-[0.99];
+    }
+
+    .fj-link {
+        @apply text-sm font-semibold text-[#00345c] hover:text-[#00857d];
+    }
+}

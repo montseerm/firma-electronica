@@ -1,39 +1,80 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
+    <header class="auth-header">
+        <h1>Restablecer contraseña</h1>
+
+        <p>
+            Ingresa tu nueva contraseña para recuperar el acceso al sistema.
+        </p>
+    </header>
+
+    @if ($errors->any())
+        <div class="auth-message auth-message-error">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('password.store') }}" class="auth-form">
         @csrf
 
-        <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="auth-field">
+            <label for="email">Correo electrónico</label>
+
+            <input
+                id="email"
+                type="email"
+                name="email"
+                value="{{ old('email', $request->email) }}"
+                required
+                autofocus
+                autocomplete="username"
+                placeholder="ejemplo@pjcdmx.gob.mx"
+            >
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="auth-field">
+            <label for="password">Nueva contraseña</label>
+
+            <input
+                id="password"
+                type="password"
+                name="password"
+                required
+                autocomplete="new-password"
+                placeholder="Ingresa tu nueva contraseña"
+            >
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        <div class="auth-field">
+            <label for="password_confirmation">Confirmar contraseña</label>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            <input
+                id="password_confirmation"
+                type="password"
+                name="password_confirmation"
+                required
+                autocomplete="new-password"
+                placeholder="Confirma tu nueva contraseña"
+            >
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
+        <button type="submit" class="auth-button">
+            Restablecer contraseña
+        </button>
+
+        <div class="auth-links">
+            <a href="{{ route('login') }}">
+                Regresar al inicio de sesión
+            </a>
         </div>
     </form>
+
+    <p class="auth-footer">
+        Poder Judicial de la Ciudad de México · Firma Digital
+    </p>
 </x-guest-layout>

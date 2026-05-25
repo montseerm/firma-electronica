@@ -48,6 +48,32 @@
             <form method="POST" action="{{ route('register') }}" class="space-y-5">
                 @csrf
 
+                <!-- Numero de empleado -->
+                 <div>
+                    <label for="name" class="block mb 2 text-sm font-bold text-[#00345c]">
+                        Número de empleado
+                    </label>
+
+                    <input
+                        id="name"
+                        type="text"
+                        name="name"
+                        value="{{ old('numero_de_empleado') }}"
+                        required
+                        autofocus
+                        autocomplete="numero_de_empleado"
+                        placeholder="Ingresa tu numero de empleado"
+                        class="block w-full border border-gray-300 bg-white px-5 py-4 text-sm text-gray-700 shadow-sm outline-none transition focus:border-[#00857d] focus:ring-2 focus:ring-[#00857d]/30"
+                    >
+
+                    @error('name')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+
+
                 <!-- Nombre -->
                 <div>
                     <label for="name" class="block mb-2 text-sm font-bold text-[#00345c]">

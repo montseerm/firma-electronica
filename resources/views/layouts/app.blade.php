@@ -15,26 +15,26 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<<body class="font-sans antialiased">
+<body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
 
         <!-- Encabezado institucional -->
-        <header class="bg-white">
-            <div class="max-w-7xl mx-auto px-6 pt-4 pb-3">
-                <div class="grid grid-cols-3 items-center">
-                    
+        <header class="fj-header">
+            <div class="fj-header-container">
+                <div class="fj-header-grid">
+
                     <!-- Logo -->
                     <div class="flex justify-start">
-                        <img 
-                            src="{{ asset('img/logo-firmajudicial.png') }}" 
-                            alt="Logo Poder Judicial" 
-                            class="h-20 w-auto"
+                        <img
+                            src="{{ asset('img/logo-firmajudicial.png') }}"
+                            alt="Logo Poder Judicial"
+                            class="fj-logo"
                         >
                     </div>
 
                     <!-- Título -->
-                    <div class="text-center">
-                        <h1 class="text-4xl font-normal text-black">
+                    <div>
+                        <h1 class="fj-title">
                             Firma Digital
                         </h1>
                     </div>
@@ -43,8 +43,7 @@
                     <div></div>
                 </div>
 
-                <!-- Línea verde -->
-                <div class="mt-3 border-b-4 border-[#00857d]"></div>
+                <div class="fj-line"></div>
             </div>
         </header>
 
@@ -58,3 +57,4 @@
 
     </div>
 </body>
+</html>

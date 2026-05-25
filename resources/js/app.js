@@ -10,16 +10,11 @@ Alpine.start();
 |--------------------------------------------------------------------------
 | Modal de bloqueo de inicio de sesión
 |--------------------------------------------------------------------------
-| Este código se activa solamente cuando existe el modal con id="modalBloqueo".
-| Sirve para mostrar el contador, bloquear correo/contraseña/botón y
-| desbloquearlos cuando el tiempo llegue a 0.
 */
 
 document.addEventListener('DOMContentLoaded', () => {
     const modalBloqueo = document.getElementById('modalBloqueo');
 
-    // Si no existe el modal, no hace nada.
-    // Esto evita errores en dashboard, perfil, registro, etc.
     if (!modalBloqueo) {
         return;
     }
@@ -63,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (botonLogin) {
             botonLogin.disabled = false;
-            botonLogin.textContent = 'Iniciar Sesión';
+            botonLogin.textContent = 'Iniciar sesión';
         }
     };
 
@@ -72,14 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
         modalBloqueo.style.display = 'none';
     };
 
-    // Si por alguna razón llega 0 o un valor inválido, cerramos el modal.
     if (!segundosRestantes || segundosRestantes <= 0) {
         cerrarModal();
         desbloquearFormulario();
         return;
     }
 
-    // Estado inicial
     bloquearFormulario();
     actualizarContador();
 

@@ -1,11 +1,21 @@
 <section>
-    <form method="post" action="{{ route('password.update') }}" class="space-y-8">
+    <header class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-900">
+            Actualizar contraseña
+        </h3>
+
+        <p class="mt-1 text-sm text-gray-600">
+            Utiliza una contraseña segura para proteger tu acceso al sistema.
+        </p>
+    </header>
+
+    <form method="post" action="{{ route('password.update') }}" class="space-y-6">
         @csrf
         @method('put')
 
         <!-- Contraseña actual -->
         <div>
-            <label for="update_password_current_password" class="block text-[16px] font-medium text-[#1b1f23] mb-2">
+            <label for="update_password_current_password" class="block text-sm font-medium text-gray-700">
                 Contraseña actual
             </label>
 
@@ -14,7 +24,7 @@
                 name="current_password"
                 type="password"
                 autocomplete="current-password"
-                class="w-full md:w-[500px] h-[52px] border border-gray-300 bg-white px-4 text-[16px] text-gray-700 outline-none rounded-sm focus:border-[#00857d]"
+                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#00857d] focus:ring-[#00857d]"
             >
 
             <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
@@ -22,7 +32,7 @@
 
         <!-- Nueva contraseña -->
         <div>
-            <label for="update_password_password" class="block text-[16px] font-medium text-[#1b1f23] mb-2">
+            <label for="update_password_password" class="block text-sm font-medium text-gray-700">
                 Nueva contraseña
             </label>
 
@@ -31,7 +41,7 @@
                 name="password"
                 type="password"
                 autocomplete="new-password"
-                class="w-full md:w-[500px] h-[52px] border border-gray-300 bg-white px-4 text-[16px] text-gray-700 outline-none rounded-sm focus:border-[#00857d]"
+                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#00857d] focus:ring-[#00857d]"
             >
 
             <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
@@ -39,7 +49,7 @@
 
         <!-- Confirmar contraseña -->
         <div>
-            <label for="update_password_password_confirmation" class="block text-[16px] font-medium text-[#1b1f23] mb-2">
+            <label for="update_password_password_confirmation" class="block text-sm font-medium text-gray-700">
                 Confirmar nueva contraseña
             </label>
 
@@ -48,7 +58,7 @@
                 name="password_confirmation"
                 type="password"
                 autocomplete="new-password"
-                class="w-full md:w-[500px] h-[52px] border border-gray-300 bg-white px-4 text-[16px] text-gray-700 outline-none rounded-sm focus:border-[#00857d]"
+                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#00857d] focus:ring-[#00857d]"
             >
 
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
@@ -58,9 +68,9 @@
         <div class="flex items-center gap-4 pt-2">
             <button
                 type="submit"
-                class="min-w-[220px] h-[48px] bg-[#00857d] hover:bg-[#006f69] text-white text-[18px] font-normal rounded-sm transition"
+                class="inline-flex items-center justify-center rounded-md bg-[#00857d] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#006f69] focus:outline-none focus:ring-2 focus:ring-[#00857d] focus:ring-offset-2"
             >
-                Guardar cambios
+                Guardar contraseña
             </button>
 
             @if (session('status') === 'password-updated')
@@ -69,7 +79,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2500)"
-                    class="text-sm text-green-700"
+                    class="text-sm font-medium text-green-700"
                 >
                     Contraseña actualizada correctamente.
                 </p>
